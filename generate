@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Generate Numbers</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding:20px;
+    background: linear-gradient(to right,#e0f7fa,#ffffff);
+    color:#333;
+}
+h2{
+    text-align:center;
+    color:#007bff;
+    margin-bottom:20px;
+}
+.form-row{
+    display:flex;
+    gap:15px;
+    margin-bottom:15px;
+    flex-wrap:wrap;
+}
+.form-row input{
+    padding:8px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    flex:1;
+    min-width:120px;
+}
+button{
+    padding:8px 18px;
+    border:none;
+    border-radius:6px;
+    background:#007bff;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover:not(:disabled){
+    background:#0056b3;
+}
+button:disabled{
+    background:#ccc;
+    cursor:not-allowed;
+}
+#goInventory{
+    margin-left:10px;
+}
+table{
+    border-collapse:collapse;
+    width:100%;
+    margin-top:20px;
+    font-size:14px;
+    display:none; /* hidden by default */
+}
+th, td{
+    border:1px solid #ddd;
+    padding:7px;
+    text-align:center;
+}
+th{
+    background:#007bff;
+    color:white;
+}
+tr:hover{
+    background:#e0f0ff;
+}
+.pending{
+    background:#fff2a8;
+}
+.used{
+    background:#ffcccc;
+}
+.summary{
+    margin-top:15px;
+    display:flex;
+    gap:20px;
+    font-weight:bold;
+}
+.summary-box{
+    flex:1;
+    text-align:center;
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.summary-box span{
+    display:inline-block;
+    min-width:40px;
+    font-weight:bold;
+    color:#007bff;
+}
+.summary-box.used span{
+    color:#dc3545;
+}
+.summary-box.pending span{
+    color:#ffc107;
+}
+#copiedMsg{
+    margin-top:10px;
+    color:#28a745;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<h2>Generate Numbers</h2>
+
+<div class="form-row">
+    <input type="text" id="areaCode" placeholder="Area Code (e.g., 726)">
+    <input type="number" id="quantity" placeholder="Quantity" min="1">
+    <button id="generateBtn">Generate</button>
+    <button id="goInventory" disabled>Go to Inventory</button>
+</div>
+
+<table id="table">
+<thead>
+<tr>
+<th>#</th>
+<th>Phone</th>
+<th>Account</th>
+<th>Transfer PIN</th>
+<th>Zipcode</th>
+<th>Status</th>
+<th>Copy</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="summary">
+<div class="summary-box">Total: <span id="total">0</span></div>
+<div class="summary-box used">Used: <span id="used">0</span></div>
+<div class="summary-box pending">Pending: <span id="pending">0</span></div>
+</div>
+
+<div id="copiedMsg"></div>
+
+<script>
+// Logged-in user info
+let currentUser = J
