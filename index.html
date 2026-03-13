@@ -3,7 +3,7 @@
 <head>
 <title>Login</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <style>
 * {
     box-sizing: border-box;
@@ -17,10 +17,9 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 15px;
+    padding: 10px;
 }
 
-/* Container */
 .login-container {
     background: #fff;
     padding: 40px 30px;
@@ -32,7 +31,6 @@ body {
     flex-direction: column;
 }
 
-/* Header */
 h2 {
     text-align: center;
     color: #007bff;
@@ -40,23 +38,20 @@ h2 {
     font-size: 24px;
 }
 
-/* Form groups */
 .form-group {
     position: relative;
     margin-bottom: 25px;
     width: 100%;
 }
 
-/* Inputs: font-size ≥16px to prevent zoom on mobile */
 input[type="email"], input[type="password"] {
     width: 100%;
     padding: 12px 45px 12px 12px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    font-size: 16px; /* Important fix for mobile zoom */
+    font-size: 16px; /* Prevent zoom on mobile */
 }
 
-/* Eye icon */
 .toggle-password {
     position: absolute;
     right: 12px;
@@ -65,10 +60,8 @@ input[type="email"], input[type="password"] {
     cursor: pointer;
     color: #007bff;
     font-size: 18px;
-    user-select: none;
 }
 
-/* Button */
 button {
     width: 100%;
     padding: 12px;
@@ -86,7 +79,6 @@ button:hover {
     background: #0056b3;
 }
 
-/* Error message */
 #errorMsg {
     margin-top: 10px;
     color: #dc3545;
@@ -94,7 +86,7 @@ button:hover {
     text-align: center;
 }
 
-/* Responsive styles */
+/* Responsive tweaks */
 @media (max-width: 480px) {
     .login-container {
         padding: 30px 20px;
@@ -106,19 +98,6 @@ button:hover {
     button {
         font-size: 14px;
         padding: 10px;
-    }
-}
-@media (min-width: 481px) and (max-width: 768px) {
-    .login-container {
-        padding: 35px 25px;
-    }
-    h2 {
-        font-size: 22px;
-        margin-bottom: 25px;
-    }
-    button {
-        font-size: 15px;
-        padding: 11px;
     }
 }
 </style>
