@@ -3,6 +3,7 @@
 <head>
 <title>Login</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,14 +15,18 @@ body {
     margin: 0;
 }
 
+/* Container */
 .login-container {
     background: #fff;
     padding: 40px 30px;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    width: 350px;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
 }
 
+/* Header */
 h2 {
     text-align: center;
     color: #007bff;
@@ -29,20 +34,23 @@ h2 {
     font-size: 24px;
 }
 
+/* Form groups */
 .form-group {
     position: relative;
     margin-bottom: 25px;
 }
 
+/* Inputs */
 input[type="email"], input[type="password"] {
     width: 100%;
-    padding: 12px 40px 12px 12px;
+    padding: 12px 45px 12px 12px; /* room for eye icon */
     border-radius: 8px;
     border: 1px solid #ccc;
     font-size: 14px;
     box-sizing: border-box;
 }
 
+/* Eye icon */
 .toggle-password {
     position: absolute;
     right: 12px;
@@ -51,8 +59,10 @@ input[type="email"], input[type="password"] {
     cursor: pointer;
     color: #007bff;
     font-size: 18px;
+    user-select: none;
 }
 
+/* Button */
 button {
     width: 100%;
     padding: 12px;
@@ -70,11 +80,49 @@ button:hover {
     background: #0056b3;
 }
 
+/* Error message */
 #errorMsg {
     margin-top: 10px;
     color: #dc3545;
     font-size: 13px;
     text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+    h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    input[type="email"], input[type="password"] {
+        font-size: 13px;
+        padding: 10px 40px 10px 10px;
+    }
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .login-container {
+        padding: 35px 25px;
+    }
+    h2 {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+    input[type="email"], input[type="password"] {
+        font-size: 14px;
+        padding: 11px 42px 11px 11px;
+    }
+    button {
+        font-size: 15px;
+        padding: 11px;
+    }
 }
 </style>
 </head>
