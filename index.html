@@ -46,10 +46,10 @@ h2 {
 
 input[type="email"], input[type="password"] {
     width: 100%;
-    padding: 12px 45px 12px 12px;
+    padding: 12px 45px 12px 12px; /* right padding for eye icon */
     border-radius: 8px;
     border: 1px solid #ccc;
-    font-size: 16px; /* Prevent zoom on mobile */
+    font-size: 16px; /* prevents mobile zoom */
 }
 
 .toggle-password {
@@ -60,6 +60,8 @@ input[type="email"], input[type="password"] {
     cursor: pointer;
     color: #007bff;
     font-size: 18px;
+    width: 24px; /* fixed width to avoid input resize */
+    text-align: center;
 }
 
 button {
@@ -133,14 +135,17 @@ const togglePassword = document.getElementById('togglePassword');
 const loginBtn = document.getElementById('loginBtn');
 const errorMsg = document.getElementById('errorMsg');
 
-// Eye icon toggle
+// Eye icon toggle without resizing input
 togglePassword.addEventListener('click', () => {
+    const icon = togglePassword.querySelector('i');
     if(passwordInput.type === 'password'){
         passwordInput.type = 'text';
-        togglePassword.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
     } else {
         passwordInput.type = 'password';
-        togglePassword.innerHTML = '<i class="fa-solid fa-eye"></i>';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
     }
 });
 
@@ -151,6 +156,7 @@ togglePassword.addEventListener('click', () => {
     });
 });
 
+// Login logic
 loginBtn.addEventListener('click', ()=>{
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
