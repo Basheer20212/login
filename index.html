@@ -13,7 +13,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin:0;
-    padding:0 10px;
+    padding:10px;
 }
 
 .login-container {
@@ -23,6 +23,8 @@ body {
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     width: 100%;
     max-width: 400px;
+    display: flex;
+    flex-direction: column;
 }
 
 h2 {
@@ -32,7 +34,6 @@ h2 {
     font-size: 24px;
 }
 
-/* Container for input + eye */
 .form-group {
     position: relative;
     margin-bottom: 25px;
@@ -40,10 +41,11 @@ h2 {
 
 input[type="email"], input[type="password"] {
     width: 100%;
-    padding: 12px 40px 12px 12px; /* padding-right for eye icon */
-    font-size: 16px; /* prevents mobile zoom */
+    padding: 12px 40px 12px 12px; /* space for eye icon if any */
+    font-size: 16px; /* prevent zoom on mobile */
     border-radius: 8px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .toggle-password {
@@ -54,7 +56,7 @@ input[type="email"], input[type="password"] {
     cursor: pointer;
     color: #007bff;
     font-size: 18px;
-    width: 24px; /* fixed width */
+    width: 24px;
     text-align: center;
     user-select: none;
 }
@@ -102,13 +104,18 @@ button:hover {
 
 <div class="login-container">
     <h2>Login</h2>
+
+    <!-- Email Field -->
     <div class="form-group">
         <input type="email" id="email" placeholder="Email Address" required>
     </div>
+
+    <!-- Password Field -->
     <div class="form-group">
         <input type="password" id="password" placeholder="Password" required>
         <span class="toggle-password" id="togglePassword"><i class="fa-solid fa-eye"></i></span>
     </div>
+
     <button id="loginBtn">Sign In</button>
     <div id="errorMsg"></div>
 </div>
@@ -129,7 +136,7 @@ const togglePassword = document.getElementById('togglePassword');
 const loginBtn = document.getElementById('loginBtn');
 const errorMsg = document.getElementById('errorMsg');
 
-// Eye icon toggle without resizing input
+// Eye icon toggle
 togglePassword.addEventListener('click', () => {
     const icon = togglePassword.querySelector('i');
     if(passwordInput.type === 'password'){
@@ -159,7 +166,7 @@ loginBtn.addEventListener('click', ()=>{
     const user = users.find(u => u.email===email && u.password===password);
     if(user){
         localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.href='https://basheer20212.github.io/login/generate.html';
+        window.location.href='generate.html';
     } else {
         errorMsg.innerText = "Invalid credentials";
     }
