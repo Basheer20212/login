@@ -159,7 +159,7 @@ loginBtn.addEventListener('click', ()=>{
     const user = users.find(u => u.email===email && u.password===password);
     if(user){
         localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.href='generate.html';
+        window.location.href='https://basheer20212.github.io/login/generate.html';
     } else {
         errorMsg.innerText = "Invalid credentials";
     }
