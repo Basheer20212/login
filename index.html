@@ -1,220 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users Inventory</title>
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Inter,Segoe UI,sans-serif;
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#1f2937,#334155);
+    color: white;
+    padding: 20px;
 }
-
-body{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(135deg,#141e30,#243b55);
-  padding:20px;
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
-
-.login-container{
-  width:100%;
-  max-width:400px;
-  padding:50px 40px;
-  border-radius:18px;
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(20px);
-  box-shadow:0 20px 60px rgba(0,0,0,0.6);
-  color:white;
-  transition:0.3s;
+h2 { text-align: center; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #334155; padding: 10px; text-align: center; word-break: break-word; }
+th { background: #3b82f6; font-weight: 600; }
+.copy-btn, .remove-btn {
+    padding: 6px 12px; font-size: 12px; border-radius: 6px; cursor: pointer; margin: 2px;
 }
-
-h2{
-  text-align:center;
-  margin-bottom:40px;
-  font-weight:500;
-  letter-spacing:1px;
-}
-
-.form-group{
-  position:relative;
-  margin-bottom:28px;
-}
-
-/* Input field */
-input{
-  width:100%;
-  height:50px;
-  padding:14px 40px 14px 14px; /* padding-right adjusted for eye icon */
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.2);
-  background:transparent;
-  color:white;
-  font-size:16px;
-  outline:none;
-  transition:all .2s;
-}
-
-input::placeholder{
-  color:rgba(255,255,255,0.6);
-}
-
-input:focus{
-  border-color:#4facfe;
-  box-shadow:0 0 0 2px rgba(79,172,254,0.25);
-}
-
-/* Eye icon button */
-.toggle-password{
-  position:absolute;
-  right:8px;            /* closer to the edge */
-  top:50%;
-  transform:translateY(-50%);
-  width:28px;            /* fixed small width */
-  height:28px;           /* fixed small height */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:none;
-  background:transparent;
-  color:#4facfe;        /* light blue for visibility */
-  font-size:16px;
-  cursor:pointer;
-  opacity:.8;
-  transition:none;       /* no hover transform */
-}
-.toggle-password:hover{
-  opacity:1;
-}
-
-button{
-  width:100%;
-  height:48px;
-  border:none;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  color:white;
-  background:linear-gradient(135deg,#4facfe,#00f2fe);
-  transition:.2s;
-}
-
-/* Only normal buttons have hover effect, not toggle-password */
-button:not(.toggle-password):hover{
-  transform:translateY(-1px);
-  box-shadow:0 10px 25px rgba(0,0,0,0.3);
-}
-
-#errorMsg{
-  margin-top:14px;
-  text-align:center;
-  color:#ff6b6b;
-  font-size:14px;
-}
-
-/* RESPONSIVE STYLES */
-@media(max-width:768px){
-  .login-container{
-    padding:40px 30px;
-  }
-  input,button{
-    height:45px;
-    font-size:15px;
-  }
-}
-
-@media(max-width:480px){
-  .login-container{
-    padding:30px 20px;
-  }
-  input,button{
-    height:42px;
-    font-size:14px;
-  }
-  .toggle-password{
-    font-size:16px;
-  }
+.copy-btn { background: #22c55e; color: white; }
+.remove-btn { background: #ef4444; color: white; }
+@media(max-width: 600px){
+    table, th, td { font-size: 12px; padding: 6px; }
 }
 </style>
 </head>
 <body>
 
-<div class="login-container">
-
-  <h2>Sign In</h2>
-
-  <div class="form-group">
-    <input type="email" id="email" placeholder="Email Address" required>
-  </div>
-
-  <div class="form-group">
-    <input type="password" id="password" placeholder="Password" required>
-    <button type="button" class="toggle-password" id="togglePassword">
-      <i class="fa-solid fa-eye"></i>
-    </button>
-  </div>
-
-  <button id="loginBtn">Login</button>
-
-  <div id="errorMsg"></div>
-
+<div class="container">
+    <h2>Users Inventory</h2>
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Users will be populated here by JS -->
+        </tbody>
+    </table>
 </div>
 
 <script>
-/* DATABASE */
-if(!localStorage.getItem('users')){
-  const users=[
-    {email:'basheermd2021@gmail.com',password:'Basheermd5889$!',roles:['admin']},
-    {email:'user1@example.com',password:'User1234',roles:[]}
-  ];
-  localStorage.setItem('users',JSON.stringify(users));
+// Fetch users from backend
+async function fetchUsers() {
+    const res = await fetch('get_users.php');
+    const users = await res.json();
+    renderUsers(users);
 }
 
-const emailInput=document.getElementById('email');
-const passwordInput=document.getElementById('password');
-const togglePassword=document.getElementById('togglePassword');
-const loginBtn=document.getElementById('loginBtn');
-const errorMsg=document.getElementById('errorMsg');
+function renderUsers(users) {
+    const tbody = document.querySelector("#usersTable tbody");
+    tbody.innerHTML = "";
+    users.forEach(user => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.email}</td>
+            <td>${user.password}</td>
+            <td>${user.role}</td>
+            <td>
+                <button class="copy-btn" onclick="copyUser(${user.id})">Copy</button>
+                <button class="remove-btn" onclick="removeUser(${user.id})">Remove</button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
 
-/* EYE ICON */
-togglePassword.addEventListener('click',()=>{
-  const icon=togglePassword.querySelector('i');
-  if(passwordInput.type==='password'){
-    passwordInput.type='text';
-    icon.classList.remove('fa-eye');
-    icon.classList.add('fa-eye-slash');
-  }else{
-    passwordInput.type='password';
-    icon.classList.remove('fa-eye-slash');
-    icon.classList.add('fa-eye');
-  }
-});
+function copyUser(id) {
+    const row = document.querySelector(`#usersTable tr td:first-child:contains('${id}')`);
+    // Simple copy logic
+    const tr = Array.from(document.querySelectorAll('#usersTable tbody tr')).find(r => r.cells[0].innerText == id);
+    if (tr) {
+        const text = `ID: ${tr.cells[0].innerText}\nEmail: ${tr.cells[1].innerText}\nPassword: ${tr.cells[2].innerText}\nRole: ${tr.cells[3].innerText}`;
+        navigator.clipboard.writeText(text).then(()=> alert("User info copied!"));
+    }
+}
 
-/* ENTER KEY */
-[emailInput,passwordInput].forEach(input=>{
-  input.addEventListener('keypress',function(e){
-    if(e.key==='Enter') loginBtn.click();
-  });
-});
+// Remove user from DB
+async function removeUser(id) {
+    if (confirm("Are you sure you want to remove this user?")) {
+        const res = await fetch(`remove_user.php?id=${id}`);
+        const data = await res.json();
+        if (data.success) {
+            alert("User removed successfully!");
+            fetchUsers(); // reload table
+        } else {
+            alert("Failed to remove user.");
+        }
+    }
+}
 
-/* LOGIN */
-loginBtn.addEventListener('click',()=>{
-  const email=emailInput.value.trim();
-  const password=passwordInput.value.trim();
-  const users=JSON.parse(localStorage.getItem('users')||'[]');
-  const user=users.find(u=>u.email===email && u.password===password);
-  if(user){
-    localStorage.setItem('currentUser',JSON.stringify(user));
-    window.location.href='generate.html';
-  }else{
-    errorMsg.innerText="Invalid credentials";
-  }
-});
+// Initial fetch
+fetchUsers();
 </script>
 
 </body>
