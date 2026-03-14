@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users Inventory</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#1f2937,#334155);
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #334155;
+    padding: 10px;
+    text-align: center;
+    word-break: break-word;
+}
+
+th {
+    background: #3b82f6;
+    font-weight: 600;
+}
+
+/* Responsive for mobile */
+@media(max-width: 600px){
+    table, th, td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Users Inventory</h2>
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be injected here -->
+            <?php
+            // Connect to database
+            $conn = new mysqli("localhost", "db_username", "db_password", "userDB");
+
+            if ($conn->connect_error) {
+                die("<tr><td colspan='5'>Connection failed: " . $conn->connect_error . "</td></tr>");
+            }
+
+            $sql = "SELECT * FROM users ORDER BY id ASC";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                            <td>". $row['id'] ."</td>
+                            <td>". $row['email'] ."</td>
+                            <td>". $row['password'] ."</td>
+                            <td>". $row['role'] ."</td>
+                            <td>". $row['created_at'] ."</td>
+                        </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='5'>No users found</td></tr>";
+            }
+
+            $conn->close();
+            ?>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
