@@ -88,7 +88,10 @@
 
 <div class="controls">
     <label>Area Code: 
-        <select id="areaCodeSelect"></select>
+        <select id="areaCodeSelect">
+            <option value="210">210</option>
+            <option value="726">726</option>
+        </select>
     </label>
     <label>Quantity: <input type="number" id="quantity" min="1" max="5" value="1"></label>
     <button id="generateBtn">Generate</button>
@@ -122,16 +125,47 @@ if(!localStorage.getItem("bobNumbers")){
     ]));
 }
 
-// Populate area codes dynamically from database
-function populateAreaCodes(){
+const generateBtn = document.getElementById("generateBtn");
+const quantityInput = document.getElementById("quantity");
+const numbersListEl = document.getElementById("numbersList");
+
+generateBtn.addEventListener("click", ()=>{
+    let quantity = parseInt(quantityInput.value) || 1;
+
+    // Admin can generate up to 5, others max 4
+    const maxQty = (currentUser && currentUser.email==="basheermd2021@gmail.com")?5:4;
+    if(quantity>maxQty) quantity=maxQty;
+
     const storage = JSON.parse(localStorage.getItem("bobNumbers")||"[]");
-    const areaCount = {};
-    storage.forEach(n => {
-        if(n.status === "unused"){
-            if(areaCount[n.areaCode]) areaCount[n.areaCode]++;
-            else areaCount[n.areaCode]=1;
-        }
+
+    const selectedArea = areaCodeSelect.value;
+
+    // Filter unused numbers for the selected area code
+    const unusedNumbers = storage.filter(n=>n.status==="unused" && n.areaCode === selectedArea);
+
+    numbersListEl.innerHTML="";
+
+    if(unusedNumbers.length===0){
+        numbersListEl.innerHTML="<li>No numbers available for this area code</li>";
+        return;
+    }
+
+    let generated = unusedNumbers.slice(0,quantity);
+
+    generated.forEach(n=>{
+        numbersListEl.innerHTML += `<li>${n.phone} | ${n.account} | ${n.transferPin} | ${n.zipcode}</li>`;
+        n.status="pending"; // mark as pending
     });
 
-    // Sort area codes by number of unused numbers
-    const sorted
+    // Save updates
+    localStorage.setItem("bobNumbers", JSON.stringify(storage));
+
+    // Disable button if reached max
+    if(generated.length>=maxQty){
+        generateBtn.disabled=true;
+    }
+});
+</script>
+
+</body>
+</html>
