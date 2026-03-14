@@ -16,16 +16,23 @@
         }
 
         h2{
-            margin-bottom: 20px;
-            font-weight:500;
+            margin-bottom: 25px;
+            font-weight:600;
+            font-size:28px;
         }
 
         .controls{
             display: flex;
-            gap:15px;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            gap:15px;
+            background: rgba(255,255,255,0.08);
+            padding:20px;
+            border-radius:16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             align-items: center;
+            justify-content: center;
+            max-width:600px;
+            width:100%;
         }
 
         label{
@@ -38,39 +45,39 @@
 
         select, input[type=number]{
             margin-top:5px;
-            padding:10px 12px;
+            padding:12px 15px;
             border-radius:12px;
             border:none;
             font-size:16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            background: rgba(255,255,255,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+            background: rgba(255,255,255,0.12);
             color:white;
-            width: 100px;
             text-align:center;
+            min-width:100px;
+            transition: 0.2s;
         }
 
-        select option{
-            color:black;
-        }
-
-        input[type=number]{
-            width: 80px;
+        select:focus, input[type=number]:focus{
+            outline:none;
+            background: rgba(255,255,255,0.2);
         }
 
         button{
-            padding:10px 25px;
+            padding:12px 28px;
             border:none;
-            border-radius:12px;
+            border-radius:14px;
             background: linear-gradient(135deg,#4facfe,#00f2fe);
             color:white;
             font-weight:600;
             cursor:pointer;
-            transition: 0.2s;
+            font-size:16px;
+            transition: 0.3s;
+            min-width:130px;
         }
 
         button:hover:not(:disabled){
-            transform: translateY(-1px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.35);
         }
 
         button:disabled{
@@ -83,23 +90,39 @@
         }
 
         #generatedNumbers{
-            margin-top:20px;
+            margin-top:25px;
             width:100%;
-            max-width:500px;
+            max-width:600px;
             background: rgba(255,255,255,0.08);
             padding: 20px;
-            border-radius:12px;
+            border-radius:16px;
             backdrop-filter: blur(10px);
         }
 
         ul{
             list-style:none;
             padding-left:0;
+            margin:0;
         }
 
         li{
-            padding:6px 0;
+            padding:8px 0;
             border-bottom:1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Responsive */
+        @media(max-width:480px){
+            .controls{
+                flex-direction: column;
+            }
+
+            button{
+                width:100%;
+            }
+
+            select, input[type=number]{
+                width:100%;
+            }
         }
     </style>
 </head>
@@ -128,7 +151,6 @@
 <script>
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 const inventoryBtn = document.getElementById("inventoryBtn");
-const areaCodeSelect = document.getElementById("areaCodeSelect");
 
 // Enable inventory button only for admin
 if(currentUser && currentUser.email === "basheermd2021@gmail.com"){
@@ -150,6 +172,7 @@ if(!localStorage.getItem("bobNumbers")){
 
 const generateBtn = document.getElementById("generateBtn");
 const quantityInput = document.getElementById("quantity");
+const areaCodeSelect = document.getElementById("areaCodeSelect");
 const numbersListEl = document.getElementById("numbersList");
 
 generateBtn.addEventListener("click", ()=>{
@@ -160,12 +183,10 @@ generateBtn.addEventListener("click", ()=>{
     if(quantity>maxQty) quantity=maxQty;
 
     const storage = JSON.parse(localStorage.getItem("bobNumbers")||"[]");
-
     const selectedArea = areaCodeSelect.value;
 
     // Filter unused numbers for the selected area code
     const unusedNumbers = storage.filter(n=>n.status==="unused" && n.areaCode === selectedArea);
-
     numbersListEl.innerHTML="";
 
     if(unusedNumbers.length===0){
