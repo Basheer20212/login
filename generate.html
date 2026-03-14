@@ -22,24 +22,45 @@
 
         .controls{
             display: flex;
-            gap:10px;
+            gap:15px;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            align-items: center;
         }
 
-        input[type=number], select{
-            padding:8px 10px;
-            border-radius:8px;
+        label{
+            display:flex;
+            flex-direction: column;
+            font-size:14px;
+            font-weight:500;
+            color:#fff;
+        }
+
+        select, input[type=number]{
+            margin-top:5px;
+            padding:10px 12px;
+            border-radius:12px;
             border:none;
             font-size:16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,0.1);
+            color:white;
+            width: 100px;
+            text-align:center;
         }
 
-        input[type=number]{ width: 80px; }
+        select option{
+            color:black;
+        }
+
+        input[type=number]{
+            width: 80px;
+        }
 
         button{
-            padding:10px 20px;
+            padding:10px 25px;
             border:none;
-            border-radius:8px;
+            border-radius:12px;
             background: linear-gradient(135deg,#4facfe,#00f2fe);
             color:white;
             font-weight:600;
@@ -87,13 +108,15 @@
 <h2>Generate Numbers</h2>
 
 <div class="controls">
-    <label>Area Code: 
+    <label>Area Code
         <select id="areaCodeSelect">
             <option value="210">210</option>
             <option value="726">726</option>
         </select>
     </label>
-    <label>Quantity: <input type="number" id="quantity" min="1" max="5" value="1"></label>
+    <label>Quantity
+        <input type="number" id="quantity" min="1" max="5" value="1">
+    </label>
     <button id="generateBtn">Generate</button>
     <button id="inventoryBtn" disabled>Go to Inventory</button>
 </div>
