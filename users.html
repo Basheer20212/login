@@ -51,14 +51,14 @@ th { background: #3b82f6; font-weight: 600; }
             </tr>
         </thead>
         <tbody>
-            <!-- Users will be populated here by JS -->
+            <!-- Users will appear here -->
         </tbody>
     </table>
 </div>
 
 <script>
-// Initialize "database" in localStorage if not present
-if(!localStorage.getItem('usersDB')) {
+// Initialize database if empty
+if (!localStorage.getItem('usersDB')) {
     const initialUsers = [
         {id: 1, email: "basheermd2021@gmail.com", password: "Basheermd5889$!", role: "admin"},
         {id: 2, email: "user1@example.com", password: "User1234", role: "user"},
@@ -67,7 +67,7 @@ if(!localStorage.getItem('usersDB')) {
     localStorage.setItem('usersDB', JSON.stringify(initialUsers));
 }
 
-// Fetch users from localStorage
+// Get users from localStorage
 function getUsers() {
     return JSON.parse(localStorage.getItem('usersDB') || '[]');
 }
@@ -89,15 +89,17 @@ function renderUsers() {
             <td>${user.email}</td>
             <td>${user.password}</td>
             <td>${user.role}</td>
-            <td><button class="remove-btn" onclick="removeUser(${user.id})">Remove</button></td>
+            <td>
+                <button class="remove-btn" onclick="removeUser(${user.id})">Remove</button>
+            </td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-// Remove user
+// Remove user function
 function removeUser(id) {
-    if(confirm("Are you sure you want to remove this user?")) {
+    if (confirm("Are you sure you want to remove this user?")) {
         let users = getUsers();
         users = users.filter(u => u.id !== id);
         saveUsers(users);
