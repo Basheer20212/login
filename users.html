@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users Inventory</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#1f2937,#334155);
+    color: white;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #334155;
+    padding: 10px;
+    text-align: center;
+    word-break: break-word;
+}
+
+th {
+    background: #3b82f6;
+    font-weight: 600;
+}
+
+.copy-btn {
+    background: #22c55e;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Responsive for mobile */
+@media(max-width: 600px){
+    table, th, td {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Users Inventory</h2>
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Users will be populated here by JS -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+// Simulated database
+const users = [
+    {id: 1, email: "basheermd2021@gmail.com", password: "Basheermd5889$!", role: "admin"},
+    {id: 2, email: "user1@example.com", password: "User1234", role: "user"},
+    {id: 3, email: "user2@example.com", password: "Pass5678", role: "user"}
+];
+
+const tbody = document.querySelector("#usersTable tbody");
+
+function renderUsers() {
+    tbody.innerHTML = "";
+    users.forEach(user => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${user.id}</td>
+            <td>${user.email}</td>
+            <td>${user.password}</td>
+            <td>${user.role}</td>
+            <td><button class="copy-btn" onclick="copyUser(${user.id})">Copy</button></td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Copy user info to clipboard
+function copyUser(id) {
+    const user = users.find(u => u.id === id);
+    if (user) {
+        const text = `ID: ${user.id}\nEmail: ${user.email}\nPassword: ${user.password}\nRole: ${user.role}`;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("User info copied to clipboard!");
+        });
+    }
+}
+
+renderUsers();
+</script>
+
+</body>
+</html>
