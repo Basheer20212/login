@@ -1,0 +1,17 @@
+-- Create database (if not exists)
+CREATE DATABASE IF NOT EXISTS userDB;
+
+-- Use the database
+USE userDB;
+
+-- Create table for users
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY, -- unique ID
+    email VARCHAR(255) NOT NULL UNIQUE, -- email must be unique
+    password VARCHAR(255) NOT NULL, -- store hashed password in real apps
+    role ENUM('admin','user') DEFAULT 'user', -- role of the user
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO users (email, password, role) VALUES
+('basheermd2021@gmail.com', 'Basheermd5889$!', 'admin'),
+('user1@example.com', 'User1234', 'user');
