@@ -15,9 +15,6 @@
 body{
   background:linear-gradient(135deg,#1f2937,#334155);
   min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   color:white;
   padding:20px;
 }
@@ -25,6 +22,8 @@ body{
 .container{
   width:100%;
   max-width:1000px;
+  margin:0 auto;
+  padding-top:20px;
 }
 
 .card{
@@ -40,10 +39,12 @@ h2{
   font-weight:600;
 }
 
+/* Controls at the top */
 .controls{
   display:flex;
   flex-direction:column;
   gap:15px;
+  margin-bottom:25px;
 }
 
 .form-group{
@@ -93,9 +94,7 @@ button:hover{
 }
 
 /* RESULT TABLE */
-
 .result-box{
-  margin-top:25px;
   background:#0f172a;
   padding:18px;
   border-radius:12px;
@@ -114,6 +113,7 @@ button:hover{
 table{
   width:100%;
   border-collapse:collapse;
+  table-layout: fixed; /* make columns adjust */
 }
 
 th,td{
@@ -121,6 +121,8 @@ th,td{
   padding:10px;
   text-align:center;
   font-size:14px;
+  word-break: break-word; /* allow content to wrap */
+  min-width:0;
 }
 
 th{
@@ -138,7 +140,6 @@ th{
 }
 
 /* DESKTOP LAYOUT */
-
 @media(min-width:768px){
   .controls{
     flex-direction:row;
@@ -166,37 +167,14 @@ th{
 
     <h2>Number Generator</h2>
 
+    <!-- Controls at top -->
     <div class="controls">
 
       <div class="form-group">
         <label>Area Code</label>
         <select id="area">
           <option>210</option>
-          <option>214</option>
-          <option>254</option>
-          <option>281</option>
-          <option>325</option>
-          <option>346</option>
-          <option>409</option>
-          <option>430</option>
-          <option>432</option>
-          <option>469</option>
-          <option>512</option>
-          <option>682</option>
-          <option>713</option>
           <option>726</option>
-          <option>737</option>
-          <option>806</option>
-          <option>817</option>
-          <option>830</option>
-          <option>832</option>
-          <option>903</option>
-          <option>915</option>
-          <option>936</option>
-          <option>940</option>
-          <option>956</option>
-          <option>972</option>
-          <option>979</option>
         </select>
       </div>
 
@@ -211,6 +189,7 @@ th{
 
     </div>
 
+    <!-- Result table -->
     <div class="result-box" id="resultBox">
 
       <div class="result-header">
@@ -218,18 +197,20 @@ th{
         <button class="copy-btn" id="copyBtn" onclick="copyTable()">Copy</button>
       </div>
 
-      <table id="resultTable">
-        <thead>
-          <tr>
-            <th>Phone Number</th>
-            <th>Account Number</th>
-            <th>Transfer PIN</th>
-            <th>ZIP Code</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
+      <div style="overflow-x:auto;">
+        <table id="resultTable">
+          <thead>
+            <tr>
+              <th>Phone Number</th>
+              <th>Account Number</th>
+              <th>Transfer PIN</th>
+              <th>ZIP Code</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
 
     </div>
 
