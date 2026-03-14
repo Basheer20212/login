@@ -1,218 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Generate Numbers</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body{
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg,#141e30,#243b55);
-            color:white;
-            margin:0;
-            padding:20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Number Generator</title>
 
-        h2{
-            text-align:center;
-            font-weight:600;
-            font-size:28px;
-            margin-bottom:30px;
-        }
+<style>
 
-        .controls-container{
-            display:flex;
-            flex-wrap:wrap;
-            gap:15px;
-            width:100%;
-            max-width:1200px;
-            margin:0 auto 30px auto;
-            background: rgba(255,255,255,0.08);
-            padding:20px;
-            border-radius:20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            justify-content: space-between;
-        }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
-        .control-group{
-            display:flex;
-            flex-direction:column;
-            flex:1 1 180px;
-        }
+body{
+background:linear-gradient(135deg,#1f2937,#334155);
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+}
 
-        label{
-            font-size:14px;
-            font-weight:500;
-            margin-bottom:5px;
-        }
+.container{
+width:90%;
+max-width:420px;
+}
 
-        select, input[type=number], button{
-            padding:12px 15px;
-            border-radius:12px;
-            border:none;
-            font-size:16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.25);
-            background: rgba(255,255,255,0.12);
-            color:white;
-            text-align:center;
-            transition:0.2s;
-        }
+.card{
+background:#1e293b;
+padding:25px;
+border-radius:16px;
+box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
 
-        select:focus, input[type=number]:focus{
-            outline:none;
-            background: rgba(255,255,255,0.2);
-        }
+h2{
+text-align:center;
+margin-bottom:20px;
+font-weight:600;
+}
 
-        button{
-            cursor:pointer;
-            font-weight:600;
-            transition:0.3s;
-            min-width:140px;
-        }
+.form-group{
+margin-bottom:18px;
+}
 
-        #generateBtn{
-            background: linear-gradient(135deg,#4facfe,#00f2fe);
-        }
+label{
+display:block;
+margin-bottom:6px;
+font-size:14px;
+opacity:0.9;
+}
 
-        #inventoryBtn{
-            background: linear-gradient(135deg,#ff758c,#ff7eb3);
-        }
+input,select{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#334155;
+color:white;
+font-size:15px;
+outline:none;
+}
 
-        button:hover:not(:disabled){
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-        }
+input:focus,select:focus{
+background:#3f4d63;
+}
 
-        button:disabled{
-            opacity:0.5;
-            cursor:not-allowed;
-        }
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.25s;
+}
 
-        #generatedNumbers{
-            width:100%;
-            max-width:1200px;
-            margin:0 auto;
-            background: rgba(255,255,255,0.08);
-            padding: 20px;
-            border-radius:16px;
-            backdrop-filter: blur(10px);
-        }
+.generate-btn{
+margin-top:10px;
+background:linear-gradient(90deg,#3b82f6,#06b6d4);
+color:white;
+}
 
-        ul{
-            list-style:none;
-            padding-left:0;
-            margin:0;
-        }
+.generate-btn:hover{
+opacity:0.9;
+}
 
-        li{
-            padding:8px 0;
-            border-bottom:1px solid rgba(255,255,255,0.2);
-        }
+.inventory-btn{
+margin-top:18px;
+background:linear-gradient(90deg,#fb7185,#f472b6);
+color:white;
+}
 
-        /* Responsive */
-        @media(max-width:768px){
-            .controls-container{
-                flex-direction:column;
-                align-items: stretch;
-            }
+.inventory-btn:hover{
+opacity:0.9;
+}
 
-            .control-group button{
-                width:100%;
-            }
-        }
-    </style>
+.footer{
+text-align:center;
+font-size:12px;
+opacity:0.6;
+margin-top:12px;
+}
+
+</style>
 </head>
+
 <body>
 
-<h2>Generate Numbers</h2>
+<div class="container">
 
-<div class="controls-container">
-    <div class="control-group">
-        <label>Area Code</label>
-        <select id="areaCodeSelect">
-            <option value="210">210</option>
-            <option value="726">726</option>
-        </select>
-    </div>
-    <div class="control-group">
-        <label>Quantity</label>
-        <input type="number" id="quantity" min="1" max="5" value="1">
-    </div>
-    <div class="control-group">
-        <label>&nbsp;</label>
-        <button id="generateBtn">Generate</button>
-    </div>
-    <div class="control-group">
-        <label>&nbsp;</label>
-        <button id="inventoryBtn" disabled>Go to Inventory</button>
-    </div>
+<div class="card">
+
+<h2>Number Generator</h2>
+
+<div class="form-group">
+<label>Area Code</label>
+<select>
+<option>210</option>
+<option>214</option>
+<option>254</option>
+<option>281</option>
+<option>325</option>
+<option>346</option>
+<option>409</option>
+<option>430</option>
+<option>432</option>
+<option>469</option>
+<option>512</option>
+<option>682</option>
+<option>713</option>
+<option>726</option>
+<option>737</option>
+<option>806</option>
+<option>817</option>
+<option>830</option>
+<option>832</option>
+<option>903</option>
+<option>915</option>
+<option>936</option>
+<option>940</option>
+<option>956</option>
+<option>972</option>
+<option>979</option>
+</select>
 </div>
 
-<div id="generatedNumbers">
-    <ul id="numbersList"></ul>
+<div class="form-group">
+<label>Quantity</label>
+<input type="number" value="1" min="1">
 </div>
 
-<script>
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-const inventoryBtn = document.getElementById("inventoryBtn");
+<button class="generate-btn">Generate</button>
 
-// Enable inventory button only for admin
-if(currentUser && currentUser.email === "basheermd2021@gmail.com"){
-    inventoryBtn.disabled = false;
-    inventoryBtn.onclick = function(){
-        window.location.href = "example.html"; // Inventory page
-    }
-}
+<button class="inventory-btn">Go to Inventory</button>
 
-// Sample database (if empty)
-if(!localStorage.getItem("bobNumbers")){
-    localStorage.setItem("bobNumbers", JSON.stringify([
-        {phone:"7262562772",account:"380588331",transferPin:"2772",zipcode:"78211",areaCode:"726",status:"unused"},
-        {phone:"7262296502",account:"6502",transferPin:"8723",zipcode:"53072",areaCode:"726",status:"unused"},
-        {phone:"7262296588",account:"6588",transferPin:"4749",zipcode:"53076",areaCode:"726",status:"unused"},
-        {phone:"2105551234",account:"5551234",transferPin:"1234",zipcode:"75201",areaCode:"210",status:"unused"},
-    ]));
-}
+<div class="footer">
+Simple Number Tool
+</div>
 
-const generateBtn = document.getElementById("generateBtn");
-const quantityInput = document.getElementById("quantity");
-const areaCodeSelect = document.getElementById("areaCodeSelect");
-const numbersListEl = document.getElementById("numbersList");
+</div>
 
-generateBtn.addEventListener("click", ()=>{
-    let quantity = parseInt(quantityInput.value) || 1;
-
-    // Admin can generate up to 5, others max 4
-    const maxQty = (currentUser && currentUser.email==="basheermd2021@gmail.com")?5:4;
-    if(quantity>maxQty) quantity=maxQty;
-
-    const storage = JSON.parse(localStorage.getItem("bobNumbers")||"[]");
-    const selectedArea = areaCodeSelect.value;
-
-    // Filter unused numbers for the selected area code
-    const unusedNumbers = storage.filter(n=>n.status==="unused" && n.areaCode === selectedArea);
-    numbersListEl.innerHTML="";
-
-    if(unusedNumbers.length===0){
-        numbersListEl.innerHTML="<li>No numbers available for this area code</li>";
-        return;
-    }
-
-    let generated = unusedNumbers.slice(0,quantity);
-
-    generated.forEach(n=>{
-        numbersListEl.innerHTML += `<li>${n.phone} | ${n.account} | ${n.transferPin} | ${n.zipcode}</li>`;
-        n.status="pending"; // mark as pending
-    });
-
-    // Save updates
-    localStorage.setItem("bobNumbers", JSON.stringify(storage));
-
-    // Disable button if reached max
-    if(generated.length>=maxQty){
-        generateBtn.disabled=true;
-    }
-});
-</script>
+</div>
 
 </body>
 </html>
