@@ -11,21 +11,22 @@
 box-sizing:border-box;
 margin:0;
 padding:0;
-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
 }
 
 body{
 background:linear-gradient(135deg,#1f2937,#334155);
-height:100vh;
+min-height:100vh;
 display:flex;
 align-items:center;
 justify-content:center;
 color:white;
+padding:20px;
 }
 
 .container{
-width:90%;
-max-width:420px;
+width:100%;
+max-width:900px;
 }
 
 .card{
@@ -41,19 +42,24 @@ margin-bottom:20px;
 font-weight:600;
 }
 
+.controls{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+}
+
 .form-group{
-margin-bottom:18px;
+display:flex;
+flex-direction:column;
 }
 
 label{
-display:block;
 margin-bottom:6px;
 font-size:14px;
 opacity:0.9;
 }
 
 input,select{
-width:100%;
 padding:12px;
 border:none;
 border-radius:10px;
@@ -63,12 +69,7 @@ font-size:15px;
 outline:none;
 }
 
-input:focus,select:focus{
-background:#3f4d63;
-}
-
 button{
-width:100%;
 padding:14px;
 border:none;
 border-radius:12px;
@@ -79,23 +80,64 @@ transition:0.25s;
 }
 
 .generate-btn{
-margin-top:10px;
 background:linear-gradient(90deg,#3b82f6,#06b6d4);
 color:white;
 }
 
-.generate-btn:hover{
-opacity:0.9;
-}
-
 .inventory-btn{
-margin-top:18px;
 background:linear-gradient(90deg,#fb7185,#f472b6);
 color:white;
 }
 
-.inventory-btn:hover{
+button:hover{
 opacity:0.9;
+}
+
+/* Result Box */
+
+.result-box{
+margin-top:25px;
+background:#0f172a;
+padding:18px;
+border-radius:12px;
+display:none;
+}
+
+.result-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.copy-btn{
+background:#22c55e;
+padding:8px 12px;
+font-size:14px;
+border-radius:8px;
+}
+
+textarea{
+width:100%;
+height:120px;
+background:#020617;
+color:#38bdf8;
+border:none;
+border-radius:10px;
+padding:10px;
+resize:none;
+font-size:14px;
+}
+
+/* Desktop Layout */
+
+@media(min-width:768px){
+
+.controls{
+grid-template-columns:2fr 1fr 1fr 1fr;
+align-items:end;
+}
+
 }
 
 .footer{
@@ -111,14 +153,15 @@ margin-top:12px;
 <body>
 
 <div class="container">
-
 <div class="card">
 
 <h2>Number Generator</h2>
 
+<div class="controls">
+
 <div class="form-group">
 <label>Area Code</label>
-<select>
+<select id="area">
 <option>210</option>
 <option>214</option>
 <option>254</option>
@@ -150,20 +193,69 @@ margin-top:12px;
 
 <div class="form-group">
 <label>Quantity</label>
-<input type="number" value="1" min="1">
+<input type="number" id="qty" value="1" min="1">
 </div>
 
-<button class="generate-btn">Generate</button>
+<button class="generate-btn" onclick="generateNumbers()">Generate</button>
 
-<button class="inventory-btn">Go to Inventory</button>
+<button class="inventory-btn">Inventory</button>
+
+</div>
+
+<div class="result-box" id="resultBox">
+
+<div class="result-header">
+<strong>Generated Numbers</strong>
+<button class="copy-btn" id="copyBtn" onclick="copyNumbers()">📋 Copy</button>
+</div>
+
+<textarea id="result" readonly></textarea>
+
+</div>
 
 <div class="footer">
 Simple Number Tool
 </div>
 
 </div>
-
 </div>
+
+<script>
+
+function generateNumbers(){
+
+let area=document.getElementById("area").value;
+let qty=document.getElementById("qty").value;
+let output="";
+
+for(let i=0;i<qty;i++){
+
+let random=Math.floor(1000000 + Math.random()*9000000);
+output+=area+random+"\n";
+
+}
+
+document.getElementById("result").value=output;
+document.getElementById("resultBox").style.display="block";
+
+}
+
+function copyNumbers(){
+
+let text=document.getElementById("result");
+text.select();
+document.execCommand("copy");
+
+let btn=document.getElementById("copyBtn");
+btn.innerText="✅ Copied!";
+
+setTimeout(()=>{
+btn.innerText="📋 Copy";
+},2000);
+
+}
+
+</script>
 
 </body>
 </html>
