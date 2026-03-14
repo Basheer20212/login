@@ -11,7 +11,6 @@ body {
     color: white;
     padding: 20px;
 }
-
 .container {
     max-width: 900px;
     margin: 0 auto;
@@ -20,43 +19,20 @@ body {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th, td {
-    border: 1px solid #334155;
-    padding: 10px;
-    text-align: center;
-    word-break: break-word;
-}
-
-th {
-    background: #3b82f6;
-    font-weight: 600;
-}
-
-.copy-btn {
-    background: #22c55e;
+h2 { text-align: center; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border: 1px solid #334155; padding: 10px; text-align: center; word-break: break-word; }
+th { background: #3b82f6; font-weight: 600; }
+.remove-btn {
+    background: #ef4444;
+    color: white;
     padding: 6px 12px;
     font-size: 12px;
     border-radius: 6px;
     cursor: pointer;
 }
-
-/* Responsive for mobile */
 @media(max-width: 600px){
-    table, th, td {
-        font-size: 12px;
-        padding: 6px;
-    }
+    table, th, td { font-size: 12px; padding: 6px; }
 }
 </style>
 </head>
@@ -81,16 +57,30 @@ th {
 </div>
 
 <script>
-// Simulated database
-const users = [
-    {id: 1, email: "basheermd2021@gmail.com", password: "Basheermd5889$!", role: "admin"},
-    {id: 2, email: "user1@example.com", password: "User1234", role: "user"},
-    {id: 3, email: "user2@example.com", password: "Pass5678", role: "user"}
-];
+// Initialize "database" in localStorage if not present
+if(!localStorage.getItem('usersDB')) {
+    const initialUsers = [
+        {id: 1, email: "basheermd2021@gmail.com", password: "Basheermd5889$!", role: "admin"},
+        {id: 2, email: "user1@example.com", password: "User1234", role: "user"},
+        {id: 3, email: "user2@example.com", password: "Pass5678", role: "user"}
+    ];
+    localStorage.setItem('usersDB', JSON.stringify(initialUsers));
+}
 
-const tbody = document.querySelector("#usersTable tbody");
+// Fetch users from localStorage
+function getUsers() {
+    return JSON.parse(localStorage.getItem('usersDB') || '[]');
+}
 
+// Save users to localStorage
+function saveUsers(users) {
+    localStorage.setItem('usersDB', JSON.stringify(users));
+}
+
+// Render table
 function renderUsers() {
+    const users = getUsers();
+    const tbody = document.querySelector("#usersTable tbody");
     tbody.innerHTML = "";
     users.forEach(user => {
         const tr = document.createElement("tr");
@@ -99,23 +89,23 @@ function renderUsers() {
             <td>${user.email}</td>
             <td>${user.password}</td>
             <td>${user.role}</td>
-            <td><button class="copy-btn" onclick="copyUser(${user.id})">Copy</button></td>
+            <td><button class="remove-btn" onclick="removeUser(${user.id})">Remove</button></td>
         `;
         tbody.appendChild(tr);
     });
 }
 
-// Copy user info to clipboard
-function copyUser(id) {
-    const user = users.find(u => u.id === id);
-    if (user) {
-        const text = `ID: ${user.id}\nEmail: ${user.email}\nPassword: ${user.password}\nRole: ${user.role}`;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("User info copied to clipboard!");
-        });
+// Remove user
+function removeUser(id) {
+    if(confirm("Are you sure you want to remove this user?")) {
+        let users = getUsers();
+        users = users.filter(u => u.id !== id);
+        saveUsers(users);
+        renderUsers();
     }
 }
 
+// Initial render
 renderUsers();
 </script>
 
