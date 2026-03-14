@@ -2,7 +2,7 @@
 session_start();
 $message = "";
 
-// Process login when form submitted
+// Process login form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
@@ -12,14 +12,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = new PDO('sqlite:database.db');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        // Query the users table
-        $stmt = $db->prepare("SELECT * FROM users WHERE email=:email AND password=:password");
+        // Prepare statement to check user
+        $stmt = $db->prepare("SELECT * FROM users WHERE email = :email AND password = :password");
         $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':password', $password); // For production, store hashed passwords!
+        $stmt->bindValue(':password', $password); // In production, store hashed passwords!
         $stmt->execute();
+
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
+            // Valid login
             $_SESSION['user'] = $user;
             header("Location: generate.html");
             exit;
