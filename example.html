@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bob Numbers Inventory Auto Parse</title>
+<style>
+body{
+    font-family:Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    padding:20px;
+    background:#f4f7fb;
+}
+
+h2{
+    text-align:center;
+    color:#007bff;
+}
+
+textarea{
+    width:100%;
+    height:120px;
+    padding:8px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    margin-top:10px;
+    padding:8px 18px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+table{
+    width:100%;
+    margin-top:20px;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
+th, td{
+    border:1px solid #ddd;
+    padding:7px;
+    text-align:center;
+}
+
+th{
+    background:#007bff;
+    color:white;
+}
+
+.pending{
+    background:#fff2a8;
+}
+
+.used{
+    background:#ffcccc;
+}
+
+.summary{
+    margin-top:15px;
+    display:flex;
+    gap:20px;
+    font-weight:bold;
+}
+
+.summary-box{
+    flex:1;
+    text-align:center;
+    background:white;
+    padding:10px;
+    border-radius:8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    font-size:16px;
+}
+
+.summary-box span{
+    display:inline-block;
+    min-width:40px;
+    font-weight:bold;
+    color:#007bff;
+}
+
+.summary-box.used span{
+    color:#dc3545;
+}
+
+.summary-box.pending span{
+    color:#ffc107;
+}
+</style>
+</head>
+<body>
+
+<h2>Bob Numbers Inventory</h2>
+
+<textarea id="paste" placeholder="Paste WhatsApp numbers here"></textarea>
+<br>
+<button onclick="scanMessages()">Scan Numbers</button>
+
+<table id="table">
+<thead>
+<tr>
+<th>#</th>
+<th>Phone</th>
+<th>Account</th>
+<th>Transfer PIN</th>
+<th>Zipcode</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="summary">
+<div class="summary-box">Total: <span id="total">0</span></div>
+<div class="summary-box used">Used: <span id="used">0</span></div>
+<div class="summary-box pending">Pending: <span id="pending">0</span></div>
+</div>
+
+<script>
+// Auto-assign numbers from any row
+function autoAssignNumbers(nums){
+    let phone="", account="", pin="", zip="";
+    nums.forEach(n=>{
+        if(n.length === 10 && !phone) phone = n;          // 10-digit phone
+        else if(n.length === 4 && !pin) pin = n;         // 4-digit transfer pin
+        else if(n.length > 3 && n.length != 10 && !account) account = n; // account
+        else if(n.length >= 5 && !zip) zip = n;          // optional zipcode
+    });
+    return {phone, account, pin, zip};
+}
+
+// Validate row
+function isValidRow(phone, account, pin, zip){
+    if(!/^\d{10,}$/.test(phone)) return false;
+    if(!account || account.length <= 3) return false;
+    if(!pin || pin.length != 4) return false;
+    if(zip && zip.length < 5) return false;
+    return true;
+}
+
+// Scan & parse
+function scanMessages(){
+    let text = document.getElementById("paste").value;
+    let storage = JSON.parse(localStorage.getItem("bobNumbers") || "[]");
+    let seen = {};
+
+    // Mark all numbers as unused
+    storage.forEach(n=>{ n.status="unused"; seen[n.phone]=true; });
+
+    let lines = text.split("\n");
+    lines.forEach(line=>{
+        line = line.trim();
+        if(!line) return;
+        let nums = line.match(/\d+/g);
+        if(!nums) return;
+        if(nums[0].length <= 2) nums.shift(); // remove line numbering
+        let {phone, account, pin, zip} = autoAssignNumbers(nums);
+
+        if(!isValidRow(phone, account, pin, zip)) return;
+
+        let existing = storage.findIndex(x => x.phone === phone);
+        if(existing != -1){
+            storage[existing] = {phone, account, pin, zip, status:"unused"};
+        } else {
+            storage.push({phone, account, pin, zip, status:"unused"});
+        }
+    });
+
+    localStorage.setItem("bobNumbers", JSON.stringify(storage));
+    renderInventory();
+}
+
+// Render table
+function renderInventory(){
+    let data = JSON.parse(localStorage.getItem("bobNumbers") || "[]");
+    let tbody = document.querySelector("#table tbody");
+    tbody.innerHTML="";
+
+    let unused=[], pending=[], used=[];
+    let total=0, usedCount=0, pendingCount=0;
+
+    data.forEach(n=>{
+        if(!isValidRow(n.phone, n.account, n.pin, n.zip)) return;
+        let row = document.createElement("tr");
+        row.innerHTML = `<td>${total+1}</td><td>${n.phone}</td><td>${n.account}</td><td>${n.pin}</td><td>${n.zip || ""}</td><td>${n.status}</td>`;
+
+        if(n.status=="pending"){ row.classList.add("pending"); pending.push(row); pendingCount++; }
+        else if(n.status=="used"){ row.classList.add("used"); used.push(row); usedCount++; }
+        else{ unused.push(row); }
+
+        total++;
+    });
+
+    unused.forEach(r=>tbody.appendChild(r));
+    pending.forEach(r=>tbody.appendChild(r));
+    used.forEach(r=>tbody.appendChild(r));
+
+    document.getElementById("total").innerText = total;
+    document.getElementById("used").innerText = usedCount;
+    document.getElementById("pending").innerText = pendingCount;
+}
+
+// Load existing inventory on page load
+renderInventory();
+</script>
+
+</body>
+</html>
