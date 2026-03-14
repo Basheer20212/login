@@ -2,173 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login Page</title>
+
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #e0f7fa, #ffffff);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 10px;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
 
-.login-container {
-    background: #fff;
-    padding: 40px 30px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    width: 100%;
-    max-width: 360px;
-    display: flex;
-    flex-direction: column;
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:#f2f4f7;
 }
 
-h2 {
-    text-align: center;
-    color: #007bff;
-    margin-bottom: 30px;
-    font-size: 24px;
+.login-container{
+background:white;
+padding:30px;
+width:350px;
+border-radius:10px;
+box-shadow:0 4px 15px rgba(0,0,0,0.1);
+text-align:center;
 }
 
-.form-group {
-    position: relative;
-    margin-bottom: 20px;
+.login-container h2{
+margin-bottom:20px;
+color:#1a73e8;
 }
 
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 12px 40px 12px 12px;
-    font-size: 16px; /* prevents mobile zoom */
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    height: 44px; /* fixed height prevents jumping */
+.input-field{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
+font-size:14px;
 }
 
-.toggle-password {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    cursor: pointer;
-    color: #007bff;
-    font-size: 18px;
-    width: 24px;
-    text-align: center;
-    user-select: none;
+.password-wrapper{
+position:relative;
+width:100%;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: #007bff;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
+.password-wrapper input{
+width:100%;
+padding-right:40px;
 }
 
-button:hover {
-    background: #0056b3;
+.eye-icon{
+position:absolute;
+right:10px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:18px;
+color:#555;
 }
 
-#errorMsg {
-    margin-top: 10px;
-    color: #dc3545;
-    font-size: 14px;
-    text-align: center;
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:6px;
+background:#1a73e8;
+color:white;
+font-size:16px;
+cursor:pointer;
 }
 
-@media (max-width: 480px) {
-    .login-container {
-        padding: 30px 20px;
-    }
-    h2 {
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-    button {
-        font-size: 14px;
-        padding: 10px;
-    }
+button:hover{
+background:#1664c0;
 }
+
 </style>
 </head>
+
 <body>
 
 <div class="login-container">
-    <h2>Login</h2>
 
-    <!-- Email Field -->
-    <div class="form-group">
-        <input type="email" id="email" placeholder="Email Address" required>
-    </div>
+<h2>Login</h2>
 
-    <!-- Password Field -->
-    <div class="form-group">
-        <input type="password" id="password" placeholder="Password" required>
-        <span class="toggle-password" id="togglePassword"><i class="fa-solid fa-eye"></i></span>
-    </div>
+<input type="email" placeholder="Email" class="input-field">
 
-    <button id="loginBtn">Sign In</button>
-    <div id="errorMsg"></div>
+<div class="password-wrapper">
+
+<input type="password" id="password" placeholder="Password" class="input-field">
+
+<span class="eye-icon" onclick="togglePassword()">👁</span>
+
+</div>
+
+<button>Sign In</button>
+
 </div>
 
 <script>
-// Example database
-if(!localStorage.getItem('users')) {
-    const users = [
-        {email: 'basheermd2021@gmail.com', password: 'Basheermd5889$!', roles: ['admin']},
-        {email: 'user1@example.com', password: 'User1234', roles: []}
-    ];
-    localStorage.setItem('users', JSON.stringify(users));
+
+function togglePassword(){
+
+const password = document.getElementById("password");
+
+if(password.type === "password"){
+password.type = "text";
+}
+else{
+password.type = "password";
 }
 
-const emailInput = document.getElementById('email');
-const passwordInput = document.getElementById('password');
-const togglePassword = document.getElementById('togglePassword');
-const loginBtn = document.getElementById('loginBtn');
-const errorMsg = document.getElementById('errorMsg');
+}
 
-// Eye icon toggle without resizing the input
-togglePassword.addEventListener('click', () => {
-    const icon = togglePassword.querySelector('i');
-    const type = passwordInput.type === 'password' ? 'text' : 'password';
-    passwordInput.type = type;
-    icon.classList.toggle('fa-eye');
-    icon.classList.toggle('fa-eye-slash');
-});
-
-// Press Enter to login
-[emailInput, passwordInput].forEach(input => {
-    input.addEventListener('keypress', function(e){
-        if(e.key === 'Enter') loginBtn.click();
-    });
-});
-
-// Login logic
-loginBtn.addEventListener('click', ()=>{
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
-    const users = JSON.parse(localStorage.getItem('users')||'[]');
-
-    const user = users.find(u => u.email===email && u.password===password);
-    if(user){
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        window.location.href='generate.html';
-    } else {
-        errorMsg.innerText = "Invalid credentials";
-    }
-});
 </script>
 
 </body>
