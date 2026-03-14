@@ -24,7 +24,7 @@ table { width: 100%; border-collapse: collapse; }
 th, td { border: 1px solid #334155; padding: 10px; text-align: center; word-break: break-word; }
 th { background: #3b82f6; font-weight: 600; }
 .remove-btn {
-    background: #ef4444;
+    background: #ef4444; /* Red color */
     color: white;
     padding: 6px 12px;
     font-size: 12px;
@@ -97,7 +97,7 @@ function renderUsers() {
     });
 }
 
-// Remove user function
+// Remove user
 function removeUser(id) {
     if (confirm("Are you sure you want to remove this user?")) {
         let users = getUsers();
