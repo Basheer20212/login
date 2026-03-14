@@ -16,91 +16,141 @@ padding:0;
 }
 
 body{
-font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-background:linear-gradient(to right,#e0f7fa,#ffffff);
+font-family:Segoe UI, sans-serif;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
-padding:10px;
+
+background:linear-gradient(135deg,#4facfe,#00f2fe);
 }
 
 .login-container{
-background:#fff;
-padding:40px 30px;
-border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.15);
+
+background:white;
+padding:45px 35px;
+border-radius:16px;
+
 width:100%;
-max-width:360px;
+max-width:380px;
+
+box-shadow:0 20px 50px rgba(0,0,0,0.2);
+
+animation:fadeIn .5s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 h2{
+
 text-align:center;
-color:#007bff;
-margin-bottom:30px;
-font-size:24px;
+margin-bottom:35px;
+color:#333;
+font-weight:600;
 }
 
 .form-group{
 position:relative;
-margin-bottom:20px;
+margin-bottom:22px;
 }
 
 input{
+
 width:100%;
-height:44px;
-padding:12px 45px 12px 12px;
-border-radius:8px;
-border:1px solid #ccc;
+height:46px;
+
+padding:12px 45px 12px 14px;
+
+border-radius:10px;
+border:1px solid #ddd;
+
 font-size:16px;
+
+transition:all .2s ease;
+
+background:#f9f9f9;
 }
 
-/* NEW EYE BUTTON DESIGN */
+input:focus{
+
+outline:none;
+border-color:#4facfe;
+background:white;
+
+box-shadow:0 0 0 3px rgba(79,172,254,0.15);
+
+}
 
 .toggle-password{
+
 position:absolute;
-right:6px;
+right:10px;
 top:50%;
 transform:translateY(-50%);
-border:none;
-background:#f5f7fb;
+
 width:34px;
 height:34px;
-border-radius:8px;
+
+border-radius:50%;
+border:none;
+
+background:#eef4ff;
+
 display:flex;
 align-items:center;
 justify-content:center;
+
 cursor:pointer;
-color:#007bff;
-transition:0.2s;
+
+color:#4facfe;
+
+transition:.2s;
 }
 
 .toggle-password:hover{
-background:#e8f0fe;
+
+background:#dce9ff;
+
 }
 
 button{
+
 width:100%;
-padding:12px;
-border-radius:8px;
+padding:13px;
+
 border:none;
-background:#007bff;
-color:white;
-font-weight:bold;
+border-radius:10px;
+
 font-size:16px;
+font-weight:600;
+
 cursor:pointer;
-transition:0.3s;
+
+color:white;
+
+background:linear-gradient(135deg,#4facfe,#00c6ff);
+
+transition:.2s;
+
 }
 
 button:hover{
-background:#0056b3;
+
+transform:translateY(-1px);
+box-shadow:0 8px 18px rgba(0,0,0,0.15);
+
 }
 
 #errorMsg{
-margin-top:10px;
-color:#dc3545;
-font-size:14px;
+
+margin-top:12px;
 text-align:center;
+color:#e74c3c;
+font-size:14px;
+
 }
 
 </style>
@@ -110,13 +160,14 @@ text-align:center;
 
 <div class="login-container">
 
-<h2>Login</h2>
+<h2>Sign In</h2>
 
 <div class="form-group">
 <input type="email" id="email" placeholder="Email Address" required>
 </div>
 
 <div class="form-group">
+
 <input type="password" id="password" placeholder="Password" required>
 
 <button type="button" class="toggle-password" id="togglePassword">
@@ -133,13 +184,17 @@ text-align:center;
 
 <script>
 
-// DATABASE
+/* DATABASE */
+
 if(!localStorage.getItem('users')){
+
 const users=[
 {email:'basheermd2021@gmail.com',password:'Basheermd5889$!',roles:['admin']},
 {email:'user1@example.com',password:'User1234',roles:[]}
 ];
+
 localStorage.setItem('users',JSON.stringify(users));
+
 }
 
 const emailInput=document.getElementById('email');
@@ -148,7 +203,8 @@ const togglePassword=document.getElementById('togglePassword');
 const loginBtn=document.getElementById('loginBtn');
 const errorMsg=document.getElementById('errorMsg');
 
-// EYE ICON TOGGLE
+/* EYE ICON */
+
 togglePassword.addEventListener('click',()=>{
 
 const icon=togglePassword.querySelector('i');
@@ -169,14 +225,18 @@ icon.classList.add('fa-eye');
 
 });
 
-// ENTER KEY LOGIN
+/* ENTER KEY */
+
 [emailInput,passwordInput].forEach(input=>{
+
 input.addEventListener('keypress',function(e){
 if(e.key==='Enter')loginBtn.click();
 });
+
 });
 
-// LOGIN SYSTEM
+/* LOGIN */
+
 loginBtn.addEventListener('click',()=>{
 
 const email=emailInput.value.trim();
@@ -189,7 +249,7 @@ const user=users.find(u=>u.email===email && u.password===password);
 if(user){
 
 localStorage.setItem('currentUser',JSON.stringify(user));
-window.location.href='https://basheer20212.github.io/login/generate.html';
+window.location.href='generate.html';
 
 }else{
 
