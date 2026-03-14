@@ -2,84 +2,92 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Login Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
-height:100vh;
+font-family:Segoe UI, sans-serif;
+background:linear-gradient(to right,#e0f7fa,#ffffff);
 display:flex;
 justify-content:center;
 align-items:center;
-background:#f2f4f7;
+height:100vh;
+padding:10px;
 }
 
 .login-container{
 background:white;
-padding:30px;
-width:350px;
-border-radius:10px;
-box-shadow:0 4px 15px rgba(0,0,0,0.1);
+padding:40px 30px;
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.15);
+width:100%;
+max-width:360px;
+}
+
+h2{
 text-align:center;
+color:#007bff;
+margin-bottom:30px;
 }
 
-.login-container h2{
-margin-bottom:20px;
-color:#1a73e8;
-}
-
-.input-field{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
-font-size:14px;
-}
-
-.password-wrapper{
+.form-group{
 position:relative;
-width:100%;
+margin-bottom:20px;
 }
 
-.password-wrapper input{
+input{
 width:100%;
-padding-right:40px;
+height:44px;
+padding:12px 40px 12px 12px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:16px;
 }
 
-.eye-icon{
+.toggle-password{
 position:absolute;
-right:10px;
+right:12px;
 top:50%;
 transform:translateY(-50%);
 cursor:pointer;
+color:#007bff;
 font-size:18px;
-color:#555;
+width:20px;
+text-align:center;
 }
 
 button{
 width:100%;
 padding:12px;
-margin-top:15px;
+border-radius:8px;
 border:none;
-border-radius:6px;
-background:#1a73e8;
+background:#007bff;
 color:white;
 font-size:16px;
+font-weight:bold;
 cursor:pointer;
+transition:0.3s;
 }
 
 button:hover{
-background:#1664c0;
+background:#0056b3;
+}
+
+#errorMsg{
+margin-top:10px;
+color:red;
+text-align:center;
+font-size:14px;
 }
 
 </style>
@@ -91,34 +99,132 @@ background:#1664c0;
 
 <h2>Login</h2>
 
-<input type="email" placeholder="Email" class="input-field">
+<div class="form-group">
+<input type="email" id="email" placeholder="Email Address">
+</div>
 
-<div class="password-wrapper">
+<div class="form-group">
+<input type="password" id="password" placeholder="Password">
+<span class="toggle-password" id="togglePassword">
+<i class="fa-solid fa-eye"></i>
+</span>
+</div>
 
-<input type="password" id="password" placeholder="Password" class="input-field">
+<button id="loginBtn">Sign In</button>
 
-<span class="eye-icon" onclick="togglePassword()">👁</span>
+<div id="errorMsg"></div>
 
 </div>
 
-<button>Sign In</button>
-
-</div>
 
 <script>
 
-function togglePassword(){
+/////////////////////////////////////////////////////
+// SIMPLE DATABASE
+/////////////////////////////////////////////////////
 
-const password = document.getElementById("password");
+if(!localStorage.getItem("users")){
 
-if(password.type === "password"){
-password.type = "text";
-}
-else{
-password.type = "password";
+const users = [
+
+{
+email:"basheermd2021@gmail.com",
+password:"Basheermd5889$!",
+role:"admin"
+},
+
+{
+email:"user1@example.com",
+password:"User1234",
+role:"user"
 }
 
+];
+
+localStorage.setItem("users",JSON.stringify(users));
+
 }
+
+
+/////////////////////////////////////////////////////
+// ELEMENTS
+/////////////////////////////////////////////////////
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const errorMsg = document.getElementById("errorMsg");
+const togglePassword = document.getElementById("togglePassword");
+
+
+/////////////////////////////////////////////////////
+// PASSWORD SHOW / HIDE
+/////////////////////////////////////////////////////
+
+togglePassword.addEventListener("click",()=>{
+
+const icon = togglePassword.querySelector("i");
+
+if(passwordInput.type==="password"){
+
+passwordInput.type="text";
+icon.classList.replace("fa-eye","fa-eye-slash");
+
+}else{
+
+passwordInput.type="password";
+icon.classList.replace("fa-eye-slash","fa-eye");
+
+}
+
+});
+
+
+/////////////////////////////////////////////////////
+// LOGIN SYSTEM
+/////////////////////////////////////////////////////
+
+loginBtn.addEventListener("click",()=>{
+
+const email = emailInput.value.trim();
+const password = passwordInput.value.trim();
+
+const users = JSON.parse(localStorage.getItem("users")) || [];
+
+const user = users.find(u => u.email===email && u.password===password);
+
+if(user){
+
+localStorage.setItem("currentUser",JSON.stringify(user));
+
+window.location.href="generate.html";
+
+}else{
+
+errorMsg.innerText="Invalid Email or Password";
+
+}
+
+});
+
+
+/////////////////////////////////////////////////////
+// ENTER KEY LOGIN
+/////////////////////////////////////////////////////
+
+[emailInput,passwordInput].forEach(input=>{
+
+input.addEventListener("keypress",(e)=>{
+
+if(e.key==="Enter"){
+
+loginBtn.click();
+
+}
+
+});
+
+});
 
 </script>
 
