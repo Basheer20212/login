@@ -5,157 +5,173 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Number Generator</title>
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-body{
-  background:linear-gradient(135deg,#1f2937,#334155);
-  min-height:100vh;
-  color:white;
-  padding:20px;
+body {
+  background: linear-gradient(135deg,#1f2937,#334155);
+  min-height: 100vh;
+  color: white;
+  padding: 20px;
 }
 
-.container{
-  width:100%;
-  max-width:1000px;
-  margin:0 auto;
-  padding-top:20px;
+.container {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: 20px;
 }
 
-.card{
-  background:#1e293b;
-  padding:25px;
-  border-radius:16px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+.card {
+  background: #1e293b;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 
-h2{
-  text-align:center;
-  margin-bottom:20px;
-  font-weight:600;
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
-/* Controls at the top */
-.controls{
-  display:flex;
-  flex-direction:column;
-  gap:15px;
-  margin-bottom:25px;
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
 }
 
-.form-group{
-  display:flex;
-  flex-direction:column;
+.form-group {
+  display: flex;
+  flex-direction: column;
 }
 
-label{
-  margin-bottom:6px;
-  font-size:14px;
+label {
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
-input,select{
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#334155;
-  color:white;
-  font-size:15px;
-  outline:none;
+input, select {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #334155;
+  color: white;
+  font-size: 15px;
+  outline: none;
 }
 
-button{
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  transition:0.25s;
+button {
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
 }
 
-button:hover{
-  opacity:0.9;
+button:hover {
+  opacity: 0.9;
 }
 
-.generate-btn{
-  background:linear-gradient(90deg,#3b82f6,#06b6d4);
-  color:white;
+.generate-btn {
+  background: linear-gradient(90deg,#3b82f6,#06b6d4);
+  color: white;
 }
 
-.inventory-btn{
-  background:linear-gradient(90deg,#fb7185,#f472b6);
-  color:white;
-  font-size:18px;
-  padding:16px;
+.inventory-btn {
+  background: linear-gradient(90deg,#fb7185,#f472b6);
+  color: white;
+  font-size: 18px;
+  padding: 16px;
 }
 
-/* RESULT TABLE */
-.result-box{
-  background:#0f172a;
-  padding:18px;
-  border-radius:12px;
-  display:none;
-  overflow-x:auto;
-  position:relative;
+/* Result Table */
+.result-box {
+  background: #0f172a;
+  padding: 18px;
+  border-radius: 12px;
+  display: none;
+  overflow-x: auto;
+  position: relative;
 }
 
-.result-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  table-layout: fixed; /* make columns adjust */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
 }
 
-th,td{
-  border:1px solid #334155;
-  padding:10px;
-  text-align:center;
-  font-size:14px;
-  word-break: break-word; /* allow content to wrap */
-  min-width:0;
+th, td {
+  border: 1px solid #334155;
+  padding: 10px;
+  text-align: center;
+  font-size: 14px;
+  word-break: break-word;
+  min-width: 60px;
 }
 
-th{
-  background:#1f2937;
-  font-weight:600;
+th {
+  background: #1f2937;
+  font-weight: 600;
 }
 
-.copy-btn{
-  background:#22c55e;
-  padding:8px 14px;
-  font-size:14px;
-  border-radius:8px;
-  cursor:pointer;
-  margin-left:10px;
+.copy-btn {
+  background: #22c55e;
+  padding: 8px 14px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+  flex-shrink: 0;
 }
 
-/* DESKTOP LAYOUT */
-@media(min-width:768px){
-  .controls{
-    flex-direction:row;
-    align-items:flex-end;
+/* Desktop layout */
+@media(min-width:768px) {
+  .controls {
+    flex-direction: row;
+    align-items: flex-end;
   }
-  .form-group{
-    flex:2;
+  .form-group {
+    flex: 2;
   }
-  .qty{
-    flex:1;
+  .qty {
+    flex: 1;
   }
-  .generate-btn{
-    flex:1;
+  .generate-btn {
+    flex: 1;
   }
-  .inventory-btn{
-    flex:2;
+  .inventory-btn {
+    flex: 2;
+  }
+}
+
+/* Mobile adjustments */
+@media(max-width:480px) {
+  table, th, td {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .controls {
+    gap: 10px;
+  }
+  .generate-btn, .inventory-btn {
+    font-size: 14px;
+    padding: 12px;
   }
 }
 </style>
@@ -164,12 +180,10 @@ th{
 
 <div class="container">
   <div class="card">
-
     <h2>Number Generator</h2>
 
-    <!-- Controls at top -->
+    <!-- Controls -->
     <div class="controls">
-
       <div class="form-group">
         <label>Area Code</label>
         <select id="area">
@@ -184,34 +198,27 @@ th{
       </div>
 
       <button class="generate-btn" onclick="generateNumbers()">Generate</button>
-
       <button class="inventory-btn" onclick="window.location.href='example.html'">Go to Inventory</button>
-
     </div>
 
-    <!-- Result table -->
+    <!-- Result Table -->
     <div class="result-box" id="resultBox">
-
       <div class="result-header">
         <strong>Generated Details</strong>
         <button class="copy-btn" id="copyBtn" onclick="copyTable()">Copy</button>
       </div>
 
-      <div style="overflow-x:auto;">
-        <table id="resultTable">
-          <thead>
-            <tr>
-              <th>Phone Number</th>
-              <th>Account Number</th>
-              <th>Transfer PIN</th>
-              <th>ZIP Code</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Phone Number</th>
+            <th>Account Number</th>
+            <th>Transfer PIN</th>
+            <th>ZIP Code</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
 
   </div>
@@ -231,7 +238,7 @@ function generateNumbers(){
   let qty=parseInt(document.getElementById("qty").value);
 
   let tbody=document.querySelector("#resultTable tbody");
-  tbody.innerHTML=""; // clear previous
+  tbody.innerHTML="";
 
   for(let i=0;i<qty;i++){
     let phone = area + randomDigits(7);
