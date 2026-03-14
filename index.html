@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <title>Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
@@ -16,7 +16,7 @@ padding:0;
 }
 
 body{
-font-family:Segoe UI, sans-serif;
+font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 background:linear-gradient(to right,#e0f7fa,#ffffff);
 display:flex;
 justify-content:center;
@@ -26,7 +26,7 @@ padding:10px;
 }
 
 .login-container{
-background:white;
+background:#fff;
 padding:40px 30px;
 border-radius:12px;
 box-shadow:0 6px 20px rgba(0,0,0,0.15);
@@ -38,6 +38,7 @@ h2{
 text-align:center;
 color:#007bff;
 margin-bottom:30px;
+font-size:24px;
 }
 
 .form-group{
@@ -48,22 +49,34 @@ margin-bottom:20px;
 input{
 width:100%;
 height:44px;
-padding:12px 40px 12px 12px;
+padding:12px 45px 12px 12px;
 border-radius:8px;
 border:1px solid #ccc;
 font-size:16px;
 }
 
+/* NEW EYE BUTTON DESIGN */
+
 .toggle-password{
 position:absolute;
-right:12px;
+right:6px;
 top:50%;
 transform:translateY(-50%);
+border:none;
+background:#f5f7fb;
+width:34px;
+height:34px;
+border-radius:8px;
+display:flex;
+align-items:center;
+justify-content:center;
 cursor:pointer;
 color:#007bff;
-font-size:18px;
-width:20px;
-text-align:center;
+transition:0.2s;
+}
+
+.toggle-password:hover{
+background:#e8f0fe;
 }
 
 button{
@@ -73,8 +86,8 @@ border-radius:8px;
 border:none;
 background:#007bff;
 color:white;
-font-size:16px;
 font-weight:bold;
+font-size:16px;
 cursor:pointer;
 transition:0.3s;
 }
@@ -85,9 +98,9 @@ background:#0056b3;
 
 #errorMsg{
 margin-top:10px;
-color:red;
-text-align:center;
+color:#dc3545;
 font-size:14px;
+text-align:center;
 }
 
 </style>
@@ -100,14 +113,16 @@ font-size:14px;
 <h2>Login</h2>
 
 <div class="form-group">
-<input type="email" id="email" placeholder="Email Address">
+<input type="email" id="email" placeholder="Email Address" required>
 </div>
 
 <div class="form-group">
-<input type="password" id="password" placeholder="Password">
-<span class="toggle-password" id="togglePassword">
+<input type="password" id="password" placeholder="Password" required>
+
+<button type="button" class="toggle-password" id="togglePassword">
 <i class="fa-solid fa-eye"></i>
-</span>
+</button>
+
 </div>
 
 <button id="loginBtn">Sign In</button>
@@ -116,113 +131,71 @@ font-size:14px;
 
 </div>
 
-
 <script>
 
-/////////////////////////////////////////////////////
-// SIMPLE DATABASE
-/////////////////////////////////////////////////////
-
-if(!localStorage.getItem("users")){
-
-const users = [
-
-{
-email:"basheermd2021@gmail.com",
-password:"Basheermd5889$!",
-role:"admin"
-},
-
-{
-email:"user1@example.com",
-password:"User1234",
-role:"user"
-}
-
+// DATABASE
+if(!localStorage.getItem('users')){
+const users=[
+{email:'basheermd2021@gmail.com',password:'Basheermd5889$!',roles:['admin']},
+{email:'user1@example.com',password:'User1234',roles:[]}
 ];
-
-localStorage.setItem("users",JSON.stringify(users));
-
+localStorage.setItem('users',JSON.stringify(users));
 }
 
+const emailInput=document.getElementById('email');
+const passwordInput=document.getElementById('password');
+const togglePassword=document.getElementById('togglePassword');
+const loginBtn=document.getElementById('loginBtn');
+const errorMsg=document.getElementById('errorMsg');
 
-/////////////////////////////////////////////////////
-// ELEMENTS
-/////////////////////////////////////////////////////
+// EYE ICON TOGGLE
+togglePassword.addEventListener('click',()=>{
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const errorMsg = document.getElementById("errorMsg");
-const togglePassword = document.getElementById("togglePassword");
+const icon=togglePassword.querySelector('i');
 
+if(passwordInput.type==='password'){
 
-/////////////////////////////////////////////////////
-// PASSWORD SHOW / HIDE
-/////////////////////////////////////////////////////
-
-togglePassword.addEventListener("click",()=>{
-
-const icon = togglePassword.querySelector("i");
-
-if(passwordInput.type==="password"){
-
-passwordInput.type="text";
-icon.classList.replace("fa-eye","fa-eye-slash");
+passwordInput.type='text';
+icon.classList.remove('fa-eye');
+icon.classList.add('fa-eye-slash');
 
 }else{
 
-passwordInput.type="password";
-icon.classList.replace("fa-eye-slash","fa-eye");
+passwordInput.type='password';
+icon.classList.remove('fa-eye-slash');
+icon.classList.add('fa-eye');
 
 }
 
 });
 
+// ENTER KEY LOGIN
+[emailInput,passwordInput].forEach(input=>{
+input.addEventListener('keypress',function(e){
+if(e.key==='Enter')loginBtn.click();
+});
+});
 
-/////////////////////////////////////////////////////
 // LOGIN SYSTEM
-/////////////////////////////////////////////////////
+loginBtn.addEventListener('click',()=>{
 
-loginBtn.addEventListener("click",()=>{
+const email=emailInput.value.trim();
+const password=passwordInput.value.trim();
 
-const email = emailInput.value.trim();
-const password = passwordInput.value.trim();
+const users=JSON.parse(localStorage.getItem('users')||'[]');
 
-const users = JSON.parse(localStorage.getItem("users")) || [];
-
-const user = users.find(u => u.email===email && u.password===password);
+const user=users.find(u=>u.email===email && u.password===password);
 
 if(user){
 
-localStorage.setItem("currentUser",JSON.stringify(user));
-
-window.location.href="https://basheer20212.github.io/login/generate.html";
+localStorage.setItem('currentUser',JSON.stringify(user));
+window.location.href='https://basheer20212.github.io/login/generate.html';
 
 }else{
 
-errorMsg.innerText="Invalid Email or Password";
+errorMsg.innerText="Invalid credentials";
 
 }
-
-});
-
-
-/////////////////////////////////////////////////////
-// ENTER KEY LOGIN
-/////////////////////////////////////////////////////
-
-[emailInput,passwordInput].forEach(input=>{
-
-input.addEventListener("keypress",(e)=>{
-
-if(e.key==="Enter"){
-
-loginBtn.click();
-
-}
-
-});
 
 });
 
