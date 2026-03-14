@@ -5,175 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Number Generator</title>
 <style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-body {
-  background: linear-gradient(135deg,#1f2937,#334155);
-  min-height: 100vh;
-  color: white;
-  padding: 20px;
-}
-
-.container {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-
-.card {
-  background: #1e293b;
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-}
-
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-}
-
-.controls {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-
-input, select {
-  padding: 12px;
-  border: none;
-  border-radius: 10px;
-  background: #334155;
-  color: white;
-  font-size: 15px;
-  outline: none;
-}
-
-button {
-  padding: 14px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.25s;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.generate-btn {
-  background: linear-gradient(90deg,#3b82f6,#06b6d4);
-  color: white;
-}
-
-.inventory-btn {
-  background: linear-gradient(90deg,#fb7185,#f472b6);
-  color: white;
-  font-size: 18px;
-  padding: 16px;
-}
-
-/* Result Table */
-.result-box {
-  background: #0f172a;
-  padding: 18px;
-  border-radius: 12px;
-  display: none;
-  overflow-x: auto;
-  position: relative;
-}
-
-.result-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;
-}
-
-th, td {
-  border: 1px solid #334155;
-  padding: 10px;
-  text-align: center;
-  font-size: 14px;
-  word-break: break-word;
-  min-width: 60px;
-}
-
-th {
-  background: #1f2937;
-  font-weight: 600;
-}
-
-.copy-btn {
-  background: #22c55e;
-  padding: 8px 14px;
-  font-size: 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-left: 10px;
-  flex-shrink: 0;
-}
-
-/* Desktop layout */
-@media(min-width:768px) {
-  .controls {
-    flex-direction: row;
-    align-items: flex-end;
-  }
-  .form-group {
-    flex: 2;
-  }
-  .qty {
-    flex: 1;
-  }
-  .generate-btn {
-    flex: 1;
-  }
-  .inventory-btn {
-    flex: 2;
-  }
-}
-
-/* Mobile adjustments */
-@media(max-width:480px) {
-  table, th, td {
-    font-size: 12px;
-    padding: 6px;
-  }
-  .controls {
-    gap: 10px;
-  }
-  .generate-btn, .inventory-btn {
-    font-size: 14px;
-    padding: 12px;
-  }
-}
+/* --- BASIC STYLES --- */
+*{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+body{background:linear-gradient(135deg,#1f2937,#334155);min-height:100vh;color:white;padding:20px;}
+.container{width:100%;max-width:1000px;margin:0 auto;padding-top:20px;}
+.card{background:#1e293b;padding:25px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.4);}
+h2{text-align:center;margin-bottom:20px;font-weight:600;}
+.controls{display:flex;flex-direction:column;gap:15px;margin-bottom:25px;}
+.form-group{display:flex;flex-direction:column;}
+label{margin-bottom:6px;font-size:14px;}
+input,select{padding:12px;border:none;border-radius:10px;background:#334155;color:white;font-size:15px;outline:none;}
+button{padding:14px;border:none;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;transition:0.25s;}
+button:hover{opacity:0.9;}
+.generate-btn{background:linear-gradient(90deg,#3b82f6,#06b6d4);color:white;}
+.inventory-btn{background:linear-gradient(90deg,#fb7185,#f472b6);color:white;font-size:18px;padding:16px;}
+.result-box{background:#0f172a;padding:18px;border-radius:12px;display:none;overflow-x:auto;position:relative;}
+.result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;}
+table{width:100%;border-collapse:collapse;table-layout:auto;}
+th,td{border:1px solid #334155;padding:10px;text-align:center;font-size:14px;word-break:break-word;min-width:60px;}
+th{background:#1f2937;font-weight:600;}
+.copy-btn{background:#22c55e;padding:8px 14px;font-size:14px;border-radius:8px;cursor:pointer;margin-left:10px;flex-shrink:0;}
+@media(min-width:768px){.controls{flex-direction:row;align-items:flex-end;}.form-group{flex:2;}.qty{flex:1;}.generate-btn{flex:1;}.inventory-btn{flex:2;}}
+@media(max-width:480px){table,th,td{font-size:12px;padding:6px;}.generate-btn,.inventory-btn{font-size:14px;padding:12px;}}
 </style>
 </head>
 <body>
@@ -197,7 +50,7 @@ th {
         <input type="number" id="qty" value="1" min="1">
       </div>
 
-      <button class="generate-btn" onclick="generateNumbers()">Generate</button>
+      <button class="generate-btn" id="generateBtn">Generate</button>
       <button class="inventory-btn" onclick="window.location.href='example.html'">Go to Inventory</button>
     </div>
 
@@ -224,45 +77,72 @@ th {
   </div>
 </div>
 
+<!-- PHP + JS Logic -->
+<?php
+// Ensure the server supports PHP
+if (file_exists('database.db')) {
+    // PHP code to fetch numbers
+    $db = new SQLite3('database.db');
+    $numbers = $db->query('SELECT phone, account, pin, zip FROM numbers');
+    $data = [];
+    while($row = $numbers->fetchArray(SQLITE3_ASSOC)){
+        $data[] = $row;
+    }
+    $db->close();
+    // Embed numbers as JS array
+    echo "<script>const numbersData = ".json_encode($data).";</script>";
+} else {
+    echo "<script>const numbersData = [];</script>";
+}
+?>
+
 <script>
-function randomDigits(length){
-  let result="";
-  for(let i=0;i<length;i++){
-    result += Math.floor(Math.random()*10);
-  }
-  return result;
-}
+// Role & generation tracking
+const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+const isAdmin = currentUser.roles && currentUser.roles.includes('admin');
+let generatedCount = 0;
+const maxForUser = 4; // regular user limit
 
-function generateNumbers(){
-  let area=document.getElementById("area").value;
-  let qty=parseInt(document.getElementById("qty").value);
+const tbody = document.querySelector('#resultTable tbody');
+const generateBtn = document.getElementById('generateBtn');
+const resultBox = document.getElementById('resultBox');
 
-  let tbody=document.querySelector("#resultTable tbody");
-  tbody.innerHTML="";
+generateBtn.addEventListener('click', () => {
+    const area = document.getElementById('area').value;
+    const qtyInput = parseInt(document.getElementById('qty').value);
 
-  for(let i=0;i<qty;i++){
-    let phone = area + randomDigits(7);
-    let account = randomDigits(10);
-    let pin = randomDigits(4);
-    let zip = randomDigits(5);
+    let qty = isAdmin ? qtyInput : Math.min(qtyInput, maxForUser - generatedCount);
+    if(qty <= 0) return alert("Regular users can only generate 4 numbers.");
 
-    let row=document.createElement("tr");
-    row.innerHTML=`<td>${phone}</td><td>${account}</td><td>${pin}</td><td>${zip}</td>`;
-    tbody.appendChild(row);
-  }
+    // Fetch rows from numbersData
+    for(let i=0; i<qty; i++){
+        if(numbersData[i]){ // check if data exists
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${numbersData[i].phone}</td>
+                <td>${numbersData[i].account}</td>
+                <td>${numbersData[i].pin}</td>
+                <td>${numbersData[i].zip}</td>
+            `;
+            tbody.appendChild(row);
+        }
+    }
 
-  document.getElementById("resultBox").style.display="block";
-}
+    resultBox.style.display = 'block';
+    if(!isAdmin){
+        generatedCount += qty;
+        if(generatedCount >= maxForUser) generateBtn.disabled = true;
+    }
+});
 
 function copyTable(){
-  let table = document.getElementById("resultTable");
-  let range = document.createRange();
+  let table=document.getElementById("resultTable");
+  let range=document.createRange();
   range.selectNode(table);
   window.getSelection().removeAllRanges();
   window.getSelection().addRange(range);
   document.execCommand("copy");
   window.getSelection().removeAllRanges();
-
   let btn=document.getElementById("copyBtn");
   btn.innerText="Copied ✓";
   setTimeout(()=>{btn.innerText="Copy";},2000);
